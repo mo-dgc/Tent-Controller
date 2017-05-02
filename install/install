@@ -1,0 +1,138 @@
+#!/bin/bash
+#
+# This script installs all software components and configures the system
+# to run the Tent Controller.
+
+# usage message   -------------------------------------------------------------
+
+usage() {
+  local pgm=`basename $0`
+  echo -e "\n$pgm: Install Tent Controller and it's prereqs\n\
+  \nusage: $pgm [options] \n\
+  Possible options:\n\
+    -f          force installation\n\
+    -S          don't install, just print a summary of last installation\n\
+    -h          show this help\n\
+"
+  exit 3
+}
+
+# set defaults   --------------------------------------------------------------
+
+setDefaults() {
+  cfgFile="$0.cfg"
+  logFile="$0.log"
+  force=0
+  summaryOnly=0
+
+  # directory of this script and all support-files
+  SRC_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+}
+
+# parse arguments and set variables -------------------------------------------
+
+parseArguments() {
+  while getopts ":C:L:fSh" opt; do
+    case $opt in
+      f) force=1;;
+      S) summaryOnly=1;;
+      h) usage;;
+      ?) echo "error: illegal option: $OPTARG"
+           usage;;
+    esac
+  done
+  shift $((OPTIND-1))
+}
+
+# check arguments   -----------------------------------------------------------
+
+checkArguments() {
+  if [ "$UID" != "0" ]; then
+    echo "error: you need to be root to run this script!" >&2
+    exit 3
+  fi
+
+  # if [ ! -f "$cfgFile" ]; then
+  #  echo "error: could not find $cfgFile!"
+  #  exit 3
+  # fi
+
+  # # check free space (override with -f)
+  # if [ $force -eq 0 ]; then
+  #   let size=`stat -f -c "%S*%f/1024/1024" /`
+  #   if [ $size -lt 4000 ]; then
+  #     echo "error: you need at least 4GB free disk space to run this script!" >&2
+  #     exit 3
+  #   fi
+  # fi
+}
+
+# write message   ------------------------------------------------------------
+
+msg() {
+  echo -e "$(date): $1"
+}
+
+# --- update package system   ------------------------------------------------
+
+install_update() {
+  msg "info: updating packages"
+  apt-get update
+}
+
+# --- upgrade system   -------------------------------------------------------
+
+install_upgrade() {
+  msg "info: upgrading system"
+  apt-get -y upgrade
+}
+
+# --- install system   -----------------------------------------------------
+
+do_install() {
+	declare -i start duration
+
+  start=$SECONDS
+  msg "info: installing software"
+  sleep 1
+  msg "info: installing software finished"
+  let duration=$SECONDS-start
+  msg "info: duration for installing software: $duration sec"
+
+}
+
+# --- print summary   --------------------------------------------------------
+
+printSummary() {
+  echo -e "\n\nSummary:\n"
+  head -n 1 "$logFile"
+  echo
+  grep "duration for module" "$logFile"
+  echo
+  tail -n 2 "$logFile"
+}
+
+# --- main program   ---------------------------------------------------------
+
+setDefaults
+parseArguments "$@"
+
+if [ $summaryOnly -eq 1 ]; then
+  [ -f "$logFile" ] && printSummary
+  exit 0
+fi
+
+checkArguments
+
+SECONDS=0
+msg "info: start time: $(date)" | tee "$logFile"
+do_install
+
+# for module in $moduleList; do
+#   do_install "$module" 2>&1 | tee -a "$logFile"
+# done
+msg "info: total duration: $SECONDS sec" >> "$logFile"
+msg "info: end time: $(date)"            >> "$logFile"
+
+printSummary
+
