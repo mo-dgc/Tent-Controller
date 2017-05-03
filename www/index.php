@@ -1,3 +1,9 @@
+<?php
+if(isset($_POST['login'])){
+	header('Location: overview.php');
+	die;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +13,7 @@
     <meta name="author" content="">
     <link rel="icon" href="/favicon.ico">
 
-    <title>Signin Template for Bootstrap</title>
+    <title>Please Sign In</title>
 
     <!-- Bootstrap core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
@@ -22,8 +28,8 @@
 
       <form class="form-signin">
         <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+        <label for="inputUser" class="sr-only">Username</label>
+        <input type="string" id="inputUser" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
         <div class="checkbox">
@@ -31,11 +37,9 @@
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" value="login" type="submit">Sign in</button>
       </form>
 
     </div> <!-- /container -->
-
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
   </body>
 </html>
