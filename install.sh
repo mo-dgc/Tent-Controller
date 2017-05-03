@@ -3,7 +3,8 @@
 # This script installs all software components and configures the system
 # to run the Tent Controller.
 
-INSTALL="/home/pi/gtmcs/"
+INSTALL="/home/pi/www"
+WEBROOT="$INSTALL/gtmcs/"
 
 # Colors for msg outputs
 Color_Off="\033[0m"       # Text Reset
@@ -74,7 +75,7 @@ server {
     index index.html index.php;
 
     ## Begin - Server Info
-    root /home/pi/www/gtmcs;
+    root $WEBROOT;
     server_name localhost;
     ## End - Server Info
 
@@ -143,6 +144,13 @@ update_sources
 install_system_software
 
 # Now we need to move over our stuff from Github
+msg "Creating web components"
+mkdir "$INSTALL"
+mkdir "$WEBROOT"
+cp -R www/* "$WEBROOT"
+
+msg "Fixing permissions"
+chown -R pi:pi "$INSTALL"
 
 msg "Installation is complete"
 
