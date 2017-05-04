@@ -84,7 +84,9 @@ server {
     # \`location /subfolder {\`
     # and the rewrite to use \`/subfolder/index.php\`
     location / {
-        try_files \$uri \$uri/ /index.html /index.php;
+        #try_files \$uri \$uri/ /index.html /index.php;
+        try_files \$uri \$uri/ @extensionless-php;
+        index index.hml index.php
     }
     ## End - Index
 
@@ -100,6 +102,12 @@ server {
         fastcgi_param SCRIPT_FILENAME \$document_root/\$fastcgi_script_name;
     }
     ## End - PHP
+    
+    ## Begin - Clean URLs
+    location @extensionless-php {
+    	rewrite ^(.*)$ $1.php last;
+    }
+    ## End - Clean URLs
 
     ## Begin - Security
     # deny all direct access for these folders
