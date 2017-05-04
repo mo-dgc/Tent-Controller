@@ -54,6 +54,9 @@ upgrade_system() {
 }
 
 install_system_software() {
+	msg "Installing Avahi"
+	apt-get -y install avahi-daemon
+
 	msg "Installing Python"
 	apt-get -y install python-dev python-pip python-setuptools
 	apt-get -y install python3 python3-dev python3-pip python3-setuptools
@@ -124,6 +127,12 @@ EOT
 
 	systemctl restart nginx
 	systemctl restart php7.0-fpm
+
+	msg "Installing Supervisor"
+	apt-get -y install supervisor
+
+	msg "Configuring Supervisor"
+	#@TODO: Finish this.
 }
 
 msg() {
