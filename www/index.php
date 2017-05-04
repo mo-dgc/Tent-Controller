@@ -1,12 +1,30 @@
 <?php
-if(isset($_POST['login'])){
-	header('Location: overview.php');
-	die;
+
+$error = false;
+
+if (isset($_POST['login'])) {
+    $username = preg_replace('/[^A-Za-z]/', '', $_POST['inputUser']);
+    $password = $_POST['inputPassword'];
+
+    if (file_exists('users/' . $username . '.xml')) {
+        $xml = new SimpleXMLElement('users/' . $username . '.xml', 0, true);
+        if (password_verify($password, $xml->password)) {
+            session_start();
+            $_SESSION['username'] = $username;
+            header('Location: overview.php');
+            die;
+        }
+        $error = true;
+    }
+    else {
+        $error = true;
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -20,26 +38,26 @@ if(isset($_POST['login'])){
 
     <!-- Custom styles for this template -->
     <link href="static/css/signin.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body>
+<body>
 
     <div class="container">
+    	<?php if ($error) { ?>
+    	<div class="alert alert-danger" role="alert">
+    		<strong>Unknown username or password.</strong> Please try again.
+    	</div>
+    	<?php } ?>
 
-      <form class="form-signin">
-        <h2 class="form-signin-heading">Please sign in</h2>
-        <label for="inputUser" class="sr-only">Username</label>
-        <input type="string" id="inputUser" class="form-control" placeholder="Username" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
-        </div>
-        <button class="btn btn-lg btn-primary btn-block" value="login" type="submit">Sign in</button>
-      </form>
+        <form method="post" action="" class="form-signin">
+            <h2 class="form-signin-heading">Please sign in</h2>
+            <label for="inputUser" class="sr-only">Username</label>
+            <input type="string" id="inputUser" name="inputUser" class="form-control" placeholder="Username" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" name="login" type="submit">Sign in</button>
+        </form>
 
     </div> <!-- /container -->
-  </body>
+</body>
 </html>
