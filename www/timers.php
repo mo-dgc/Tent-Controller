@@ -51,7 +51,7 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
             <li><a href="graphs.php">Graphs</a></li>
             <li><a href="setpoints.php">Set Points</a></li>
             <li><a href="alarms.php">Alarms</a></li>
-            <li><a href="setpoints.php">Set Points</a></li>
+            <li><a href="system.php">System</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
           <li class="dropdown">

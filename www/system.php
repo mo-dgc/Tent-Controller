@@ -46,7 +46,7 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
         -->
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Overview</a></li>
+            <li><a href="overview.php">Overview</a></li>
             <li><a href="timers.php">Timers</a></li>
             <li><a href="graphs.php">Graphs</a></li>
             <li><a href="setpoints.php">Set Points</a></li>
