@@ -149,8 +149,13 @@ fi
 msg "Starting GT-MCS Installation"
 
 update_sources
-#update_packages
-#upgrade_system
+
+# This is just for dev - remove SKIPUPDATES variable for final version
+if [ ! -z ${SKIPUPDATES} ]; then
+	update_packages
+	upgrade_system
+fi
+
 install_system_software
 
 # Now we need to move over our stuff from Github
