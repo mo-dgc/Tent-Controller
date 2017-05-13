@@ -3,6 +3,9 @@
 # This script installs all software components and configures the system
 # to run the Tent Controller.
 
+# python modules:
+#  passlib, bcrypt
+
 INSTALL="/home/pi/www"
 WEBROOT="$INSTALL/gtmcs/"
 
