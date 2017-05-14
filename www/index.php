@@ -1,6 +1,15 @@
 <?php
 
 $error = false;
+$errormsg = "";
+
+try {
+    $sqlite = new SQLite3('../gtmcs.db');
+}
+catch (Exception $exception) {
+    $errordb = true;
+    $errormsg = $exception->getMessage();
+}
 
 if (isset($_POST['login'])) {
     $username = preg_replace('/[^A-Za-z]/', '', $_POST['inputUser']);
@@ -15,9 +24,11 @@ if (isset($_POST['login'])) {
             die;
         }
         $error = true;
+        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
     }
     else {
         $error = true;
+        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
     }
 }
 
@@ -45,9 +56,10 @@ if (isset($_POST['login'])) {
     <div class="container">
     	<?php if ($error) { ?>
     	<div class="alert alert-danger" role="alert">
-    		<strong>Unknown username or password.</strong> Please try again.
+    		<?php echo $error_msg; ?>
     	</div>
     	<?php } ?>
+
 
         <form method="post" action="" class="form-signin">
             <h2 class="form-signin-heading">Please sign in</h2>

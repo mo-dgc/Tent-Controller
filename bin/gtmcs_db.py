@@ -15,7 +15,7 @@ class User(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
+    name = Column(String(250), nullable=False, unique=True)
     password = Column(String(250), nullable=False)
   
 # Create an engine that stores data in the local directory's
