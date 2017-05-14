@@ -15,14 +15,16 @@ if (isset($_POST['login'])) {
     $username = preg_replace('/[^A-Za-z]/', '', $_POST['inputUser']);
     $password = $_POST['inputPassword'];
 
-    if (file_exists('users/' . $username . '.xml')) {
-        $xml = new SimpleXMLElement('users/' . $username . '.xml', 0, true);
-        if (password_verify($password, $xml->password)) {
+    $query = "SELECT password FROM user WHERE name='$username'";
+    $res = $sqlite->query($query)->fetchArray();
+    if ($res) {
+        if (password_verify($password, $res["password"])) {
             session_start();
             $_SESSION['username'] = $username;
             header('Location: overview.php');
-            die;
-        }
+            die();
+        } 
+
         $error = true;
         $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
     }
