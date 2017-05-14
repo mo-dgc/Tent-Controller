@@ -1,10 +1,11 @@
 <?php
 
+$filename = "../gtmcs.db";
 $error = false;
 $errormsg = "";
 
 try {
-    $sqlite = new SQLite3('../gtmcs.db');
+    $sqlite = new SQLite3($filename);
 }
 catch (Exception $exception) {
     $errordb = true;
@@ -16,7 +17,9 @@ if (isset($_POST['login'])) {
     $password = $_POST['inputPassword'];
 
     $query = "SELECT password FROM user WHERE name='$username'";
-    $res = $sqlite->query($query)->fetchArray();
+    $result = $sqlite->query($query);
+    $res = $result->fetchArray();
+
     if ($res) {
         if (password_verify($password, $res["password"])) {
             session_start();
