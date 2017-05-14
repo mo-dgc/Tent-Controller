@@ -26,6 +26,13 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
     <!-- Custom styles for this template -->
     <link href="./static/css/navbar-fixed-top.css" rel="stylesheet">
 
+<style>
+.placeholder img {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    text-align: center;
+}
+</style>
   </head>
 
   <body>
@@ -72,11 +79,37 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
     </nav>
 
     <div class="container">
-      <!-- Main component for a primary marketing message or call to action -->
-      <div class="row">
-        <h1>Dashboard</h1>
-        <p>Something, something, something, Dark Side.</p>
-      </div>
+        <div class="row">
+            <div class="col-md-9">
+                <p class="text-center">
+                    <img class="img-responsive img-rounded" src="static/img/tomatoes.jpg" alt="Latest snap from camera" />
+                    <br />
+                    <small>Add timestamp here</small>
+                </p>
+            </div>
+            <div class="col-md-3">
+                <div class="row text-center">
+                    <img
+                         src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs="
+                         width="150" height="150" class="img-responsive img-circle center-block" alt="Generic placeholder thumbnail">
+                        <h4>Temp</h4>
+                </div>
+                <div class="row text-center">
+                    <img
+                        src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs="
+                        width="150" height="150" class="img-responsive img-circle center-block"
+                        alt="Genric placeholder thumbnail">
+                    <h4>Humidity</h4>
+                </div>
+                <div class="row text-center">
+                    <img
+                        src="data:image/gif;base64,R0lGODlhAQABAIABAAJ12AAAACwAAAAAAQABAAACAkQBADs="
+                        width="150" height="150" class="img-responsive img-circle center-block"
+                        alt="generic placeholder thumbnail">
+                    <h4>VPD</h4>
+                </div>
+            </div>
+        </div>
     </div> <!-- /container -->
 
 
