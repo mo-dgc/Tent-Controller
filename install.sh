@@ -65,7 +65,7 @@ install_system_software() {
 	apt-get -y install python3 python3-dev python3-pip python3-setuptools
 
 	msg "Installing PHP7"
-	apt-get -y -t stretch install php7.0 php7.0-curl php7.0-gd php7.0-fpm php7.0-cli php7.0-opcache php7.0-mbstring php7.0-xml php7.0-zip
+	apt-get -y -t stretch install php7.0 php7.0-curl php7.0-gd php7.0-fpm php7.0-cli php7.0-opcache php7.0-mbstring php7.0-xml php7.0-zip php7.0-sqlite3
 	msg "Configuring PHP7"
 	# Update user and group preference for FPM pool
 	sed -i 's,^\(user = \).*,\1'pi',' /etc/php/7.0/fpm/pool.d/www.conf
