@@ -185,5 +185,5 @@ cp -R www/* "$WEBROOT"
 msg "Fixing permissions"
 chown -R pi:pi "$INSTALL"
 
-msg "Installation is complete"
+msg "Installation is complete.  Please refer to the getting started wiki."
 
