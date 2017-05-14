@@ -1,23 +1,39 @@
 <?php
 
+$filename = "../gtmcs.db";
 $error = false;
+$errormsg = "";
+
+try {
+    $sqlite = new SQLite3($filename);
+}
+catch (Exception $exception) {
+    $errordb = true;
+    $errormsg = $exception->getMessage();
+}
 
 if (isset($_POST['login'])) {
     $username = preg_replace('/[^A-Za-z]/', '', $_POST['inputUser']);
     $password = $_POST['inputPassword'];
 
-    if (file_exists('users/' . $username . '.xml')) {
-        $xml = new SimpleXMLElement('users/' . $username . '.xml', 0, true);
-        if (password_verify($password, $xml->password)) {
+    $query = "SELECT password FROM user WHERE name='$username'";
+    $result = $sqlite->query($query);
+    $res = $result->fetchArray();
+
+    if ($res) {
+        if (password_verify($password, $res["password"])) {
             session_start();
             $_SESSION['username'] = $username;
             header('Location: overview.php');
-            die;
-        }
+            die();
+        } 
+
         $error = true;
+        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
     }
     else {
         $error = true;
+        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
     }
 }
 
@@ -45,9 +61,10 @@ if (isset($_POST['login'])) {
     <div class="container">
     	<?php if ($error) { ?>
     	<div class="alert alert-danger" role="alert">
-    		<strong>Unknown username or password.</strong> Please try again.
+    		<?php echo $error_msg; ?>
     	</div>
     	<?php } ?>
+
 
         <form method="post" action="" class="form-signin">
             <h2 class="form-signin-heading">Please sign in</h2>
