@@ -3,11 +3,21 @@
 # This script installs all software components and configures the system
 # to run the Tent Controller.
 
-# python modules:
-#  passlib, bcrypt
+# @TODO: Check if CLI PHP getting error after installing php7.0-sqlite3 on fresh install
+#    Test: 
+#			pi@gtmcs:~/www/gtmcs $ php -v
+#			PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/pdo_sqlite.so' - /usr/lib/php/20151012/pdo_sqlite.so: undefined symbol: php_pdo_unregister_driver in Unknown on line 0
+#			PHP 7.0.16-3 (cli) (built: Feb 22 2017 10:03:06) ( NTS )
+#			Copyright (c) 1997-2017 The PHP Group
+#			Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies
+#			    with Zend OPcache v7.0.16-3, Copyright (c) 1999-2017, by Zend Technologies
+#    Fix: edit '/etc/php/7.0/cli/conf.d/20-pdo_sqlite.ini'
+#         comment out extension: ';extension=pdo_sqlite.so' 
 
-INSTALL="/home/pi/www"
-WEBROOT="$INSTALL/gtmcs/"
+
+INSTALL="/home/pi/gtmcs"
+BINROOT="$INSTALL/bin/"
+WEBROOT="$INSTALL/www/"
 
 # Colors for msg outputs
 Color_Off="\033[0m"       # Text Reset
@@ -60,9 +70,12 @@ install_system_software() {
 	msg "Installing Avahi"
 	apt-get -y install avahi-daemon
 
+	msg "Installing Sqlite3"
+	apt-get -y install sqlite3
+
 	msg "Installing Python"
 	apt-get -y install python-dev python-pip python-setuptools
-	apt-get -y install python3 python3-dev python3-pip python3-setuptools
+	apt-get -y install python3 python3-dev python3-pip python3-setuptools python3-bcrypt python3-sqlalchemy python3-passlib
 
 	msg "Installing PHP7"
 	apt-get -y -t stretch install php7.0 php7.0-curl php7.0-gd php7.0-fpm php7.0-cli php7.0-opcache php7.0-mbstring php7.0-xml php7.0-zip php7.0-sqlite3
@@ -162,8 +175,10 @@ fi
 install_system_software
 
 # Now we need to move over our stuff from Github
-msg "Creating web components"
+msg "Installing components"
 mkdir "$INSTALL"
+mkdir "$BINROOT"
+cp -R bin/* "$BINROOT"
 mkdir "$WEBROOT"
 cp -R www/* "$WEBROOT"
 
