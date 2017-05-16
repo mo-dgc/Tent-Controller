@@ -69,17 +69,79 @@ require_once("authenticate.php");
     <div class="container">
       <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
-        <h1>System Parameters</h1>h1>
-        <form class="form-inline">
-          <label class="mr-sm-2" for="inlineFormCustomSelect">Create Timelapse from:</label>
-          <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
-            <option selected>Choose...</option>
-            <option value="0">Live Stram</option>
-            <option value="1">Snapshots</option>
-          </select>
+        <h1>System Options</h1>
+        <form class="form-horizontal">
+		<fieldset>
+<legend>Overview Screen</legend>
+<!-- Select Basic -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="selectOverview">Display for overview</label>
+<div class="col-md-4">
+<select id="selectOverview" name="selectOverview" class="form-control input-md">
+<option>Data Only</option>
+<option>Display Livestream</option>
+<option>Display Snapshot</option>
+</select>
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="streamurl">Stream URL</label>  
+<div class="col-md-4">
+<input id="streamurl" name="streamurl" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="snapshoturl">Stream URL</label>  
+<div class="col-md-4">
+<input id="snapshoturl" name="snapshoturl" type="text" class="form-control input-md">
+</div>
+</div>
+
+</fieldset>
+
+<fieldset>
+<legend>Timelapse</legend>
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="timelapse">Create timelapse video?</label>
+<div class="col-md-4"> 
+<label class="radio-inline" for="timelapse-no"><input type="radio" name="timelapse" id="timelapse-no" value="No" checked="checked">No</label> 
+<label class="radio-inline" for="timelapse-yes"><input type="radio" name="timelapse" id="timelapse-yes" value="Yes">Yes</label>
+</div>
+</div>
+
+
+<!-- Select Basic -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="selectTimelapseSource">Generate timelapse from</label>
+<div class="col-md-4">
+<select id="selectTimelapseSource" name="selectTimelapseSource" class="form-control input-md">
+<option>Livestream</option>
+<option>Snapshots</option>
+</select>
+</div>
+</div>
+
+</fieldset>
+
+<fieldset>
+<legend>Dunno</legend>
+</fieldset>
+
+<!-- Button -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="submit"></label>
+<div class="col-md-4">
+<button id="submit" name="submit" class="btn btn-primary">Update</button>
+</div>
+</div>
+
         </form>
-        <h1>System</h1>
-        <p>Something, something, something, Dark Side.</p>
       </div>
     </div> <!-- /container -->
 
