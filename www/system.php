@@ -1,10 +1,5 @@
 <?php
-session_start();
-
-if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
-  header('Location: index.php');
-  die;
-}
+require_once("authenticate.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">

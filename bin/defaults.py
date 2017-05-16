@@ -3,7 +3,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker 
-from gtmcs_db import Base, User, System
+from gtmcs_db import Base, User, System, Sessions
 from passlib.hash import bcrypt
 import getpass
 
@@ -13,6 +13,7 @@ session = DBSession()
 
 User.metadata.bind = engine
 System.metadata.bind = engine
+Sessions.metadata.bind = engine
 
 
 """

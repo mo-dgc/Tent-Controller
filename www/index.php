@@ -1,36 +1,39 @@
 <?php
 
-$filename = "../gtmcs.db";
-$error = false;
-$errormsg = "";
+$username = null;
+$password = null;
 
-try {
-    $sqlite = new SQLite3($filename);
-}
-catch (Exception $exception) {
-    $errordb = true;
-    $errormsg = $exception->getMessage();
-}
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-if (isset($_POST['login'])) {
-    $username = preg_replace('/[^A-Za-z]/', '', $_POST['inputUser']);
-    $password = $_POST['inputPassword'];
+    require_once("database.php");
 
-    $query = "SELECT password FROM user WHERE name='$username'";
-    $result = $sqlite->query($query);
-    $res = $result->fetchArray();
+    if(!empty($_POST["inputUser"]) && !empty($_POST["inputPassword"])) {
+        $username = preg_replace('/[^A-Za-z]/', '', $_POST["inputUser"];
+        $password = $_POST["inputPassword"];
 
-    if ($res) {
-        if (password_verify($password, $res["password"])) {
+        $query = $db->prepare("SELECT id FROM user WHERE name=:user");
+        $query->bindParam(":user", $username);
+        $result = $query->execute();
+        $userid = $result->fetchArray(SQLITE3_NUM)[0];
+        $query->close();
+
+        if (!empty($userid)) {
             session_start();
-            $_SESSION['username'] = $username;
+            $session_key = session_id();
+            
+            $query = $db->prepare("INSERT INTO sessions (userid, key, expires) VALUES (:userid, :key, DateTime('now','localtime','+1 hour')";
+            $query->bindParam(":userid", $userid);
+            $query->bindParam("key", $session_key);
+            $query->execute();
+            $query->close();
+            
             header('Location: overview.php');
-            die();
-        } 
-
-        $error = true;
-        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
-    }
+        }
+        else {
+            $error = true;
+            $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
+        }
+    } 
     else {
         $error = true;
         $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
