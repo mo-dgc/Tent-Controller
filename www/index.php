@@ -1,45 +1,43 @@
 <?php
 
+$error = false;
+$errormsg = "";
+
 $username = null;
 $password = null;
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    require_once("database.php");
-
-    if(!empty($_POST["inputUser"]) && !empty($_POST["inputPassword"])) {
-        $username = preg_replace('/[^A-Za-z]/', '', $_POST["inputUser"];
-        $password = $_POST["inputPassword"];
-
-        $query = $db->prepare("SELECT id FROM user WHERE name=:user");
+if (isset($_POST['login'])) {
+	require_once("database.php");
+	$username = preg_replace('/[^A-Za-z]/', '', $_POST["inputUser"]);
+	$password = $_POST["inputPassword"];
+	
+        $query = $db->prepare("SELECT id,password FROM user WHERE name=:user");
         $query->bindParam(":user", $username);
         $result = $query->execute();
-        $userid = $result->fetchArray(SQLITE3_NUM)[0];
+        $row = $result->fetchArray(SQLITE3_ASSOC);
         $query->close();
 
-        if (!empty($userid)) {
+	if (!empty($row["id"]) && password_verify($password, $row["password"])) {
+		$userid = $row["id"];
             session_start();
             $session_key = session_id();
             
-            $query = $db->prepare("INSERT INTO sessions (userid, key, expires) VALUES (:userid, :key, DateTime('now','localtime','+1 hour')";
+		$_SESSION['username'] = $username;
+
+            $query = $db->prepare("INSERT INTO sessions (userid, key, expires) VALUES (:userid, :key, DateTime('now','localtime','+1 hour'))");
             $query->bindParam(":userid", $userid);
-            $query->bindParam("key", $session_key);
+            $query->bindParam(":key", $session_key);
             $query->execute();
             $query->close();
             
             header('Location: overview.php');
+		die;
         }
         else {
             $error = true;
             $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
         }
-    } 
-    else {
-        $error = true;
-        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
-    }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,9 +60,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
 
     <div class="container">
+<div class="alert alert-info" role="info"><?php var_dump($row); ?></div>
     	<?php if ($error) { ?>
     	<div class="alert alert-danger" role="alert">
-    		<?php echo $error_msg; ?>
+    		<?php echo $errormsg; ?>
     	</div>
     	<?php } ?>
 

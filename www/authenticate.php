@@ -1,9 +1,6 @@
 <?php
 // authenticate.php
 
-$error = false;
-$errormsg = "";
-
 session_start();
 $session_key = session_id();
 
