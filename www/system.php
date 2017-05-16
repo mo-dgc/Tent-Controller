@@ -83,8 +83,8 @@ require_once("authenticate.php");
 <div class="col-md-4">
 <select id="selectOverview" name="selectOverview" class="form-control input-md">
 <option>Data Only</option>
-<option disabled>Display Livestream</option>
-<option disabled>Display Snapshot</option>
+<option id="selOverviewLivestream" disabled>Display Livestream</option>
+<option id="selOverviewSnapshot" disabled>Display Snapshot</option>
 </select>
 </div>
 </div>
@@ -216,12 +216,32 @@ require_once("authenticate.php");
     <script src="./static/js/bootstrap.min.js"></script>
     <script src="./static/js/bootstrap-toggle.min.js"></script>
 <script>
-  $(function() {
-    $('#timelapse').change(function() {
-      $('#selectTimelapseSource').prop('disabled', function(i,v){return !v;});
-      $('#timelapseInterval').prop('disabled', function(i,v){return !v;});;
-    })
-  })
+function isUrlValid(url) {
+    return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+}
+
+// Toggle Timelapse fields
+$(function() {
+$('#timelapse').change(function() {
+$('#selectTimelapseSource').prop('disabled', function(i,v){return !v;});
+$('#timelapseInterval').prop('disabled', function(i,v){return !v;});;
+})
+})
+
+// Validate Stream URL
+$('#streamurl').keyup(function(){
+ if (isUrlValid($('#streamurl').val())) {
+  $('#selOverviewLivestream').prop('disabled', false);
+ }
+});
+
+// Validate Snapshot URL
+$('#snapshoturl').keyup(function(){
+ if (isUrlValid($('#snapshoturl').val())) {
+  $('#selOverviewSnapshot').prop('disabled', false);
+ }
+});
+
 </script>
   </body>
 </html>
