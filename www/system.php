@@ -69,6 +69,15 @@ require_once("authenticate.php");
     <div class="container">
       <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
+        <h1>System Parameters</h1>h1>
+        <form class="form-inline">
+          <label class="mr-sm-2" for="inlineFormCustomSelect">Create Timelapse from:</label>
+          <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+            <option selected>Choose...</option>
+            <option value="0">Live Stram</option>
+            <option value="1">Snapshots</option>
+          </select>
+        </form>
         <h1>System</h1>
         <p>Something, something, something, Dark Side.</p>
       </div>
