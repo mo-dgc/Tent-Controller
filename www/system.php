@@ -20,7 +20,8 @@ require_once("authenticate.php");
 
     <!-- Custom styles for this template -->
     <link href="./static/css/navbar-fixed-top.css" rel="stylesheet">
-
+    
+    <link href="./static/css/bootstrap-toggle.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -70,17 +71,20 @@ require_once("authenticate.php");
       <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
         <h1>System Options</h1>
-        <form class="form-horizontal">
-		<fieldset>
+
+        <form method="post" class="form-horizontal">
+
+<fieldset>
 <legend>Overview Screen</legend>
+
 <!-- Select Basic -->
 <div class="form-group">
 <label class="col-md-4 control-label" for="selectOverview">Display for overview</label>
 <div class="col-md-4">
 <select id="selectOverview" name="selectOverview" class="form-control input-md">
 <option>Data Only</option>
-<option>Display Livestream</option>
-<option>Display Snapshot</option>
+<option disabled>Display Livestream</option>
+<option disabled>Display Snapshot</option>
 </select>
 </div>
 </div>
@@ -95,7 +99,7 @@ require_once("authenticate.php");
 
 <!-- Text input-->
 <div class="form-group">
-<label class="col-md-4 control-label" for="snapshoturl">Stream URL</label>  
+<label class="col-md-4 control-label" for="snapshoturl">Snapshot URL</label>  
 <div class="col-md-4">
 <input id="snapshoturl" name="snapshoturl" type="text" class="form-control input-md">
 </div>
@@ -110,8 +114,8 @@ require_once("authenticate.php");
 <div class="form-group">
 <label class="col-md-4 control-label" for="timelapse">Create timelapse video?</label>
 <div class="col-md-4"> 
-<label class="radio-inline" for="timelapse-no"><input type="radio" name="timelapse" id="timelapse-no" value="No" checked="checked">No</label> 
-<label class="radio-inline" for="timelapse-yes"><input type="radio" name="timelapse" id="timelapse-yes" value="Yes">Yes</label>
+<!--input type="checkbox" checked data-toggle="toggle" data-on="On Text" data-off="Off Text"....-->
+<input id="timelapse" name="timelapse" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
 </div>
 </div>
 
@@ -120,17 +124,75 @@ require_once("authenticate.php");
 <div class="form-group">
 <label class="col-md-4 control-label" for="selectTimelapseSource">Generate timelapse from</label>
 <div class="col-md-4">
-<select id="selectTimelapseSource" name="selectTimelapseSource" class="form-control input-md">
+<select id="selectTimelapseSource" disabled name="selectTimelapseSource" class="form-control input-md">
 <option>Livestream</option>
 <option>Snapshots</option>
 </select>
 </div>
 </div>
 
+<!-- Text input-->
+<div id="tl_interval" class="form-group">
+<label class="col-md-4 control-label" for="timelapseInterval">Snapshot Interval (minutes)</label>  
+<div class="col-md-4">
+<input id="timelapseInterval" disabled name="timelapseInterval" type="number" placeholder="60" class="form-control input-md">
+</div>
+</div>
+
+
 </fieldset>
 
 <fieldset>
-<legend>Dunno</legend>
+<legend>SMTP Configuration</legend>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_server">SMTP Server</label>  
+<div class="col-md-4">
+<input id="smtp_server" name="smtp_server" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_port">SMTP Port</label>  
+<div class="col-md-4">
+<input id="smtp_port" name="smtp_port" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Checkbox -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_usetls">Use TLS?</label>
+<div class="col-md-4"> 
+<input type="checkbox" name="smpt_usetls" id="smtp_usetls" checked="checked">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_user">Username</label>  
+<div class="col-md-4">
+<input id="smtp_user" name="smtp_user" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_pass">Password</label>  
+<div class="col-md-4">
+<input id="smtp_pass" name="smtp_pass" type="password" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_recipients">Email recipients (comma separated)</label>  
+<div class="col-md-4">
+<input id="smtp_recipients" name="smtp_recipients" type="text" class="form-control input-md">
+</div>
+</div>
+
 </fieldset>
 
 <!-- Button -->
@@ -152,5 +214,14 @@ require_once("authenticate.php");
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery</script>
     <script src="./static/js/bootstrap.min.js"></script>
+    <script src="./static/js/bootstrap-toggle.min.js"></script>
+<script>
+  $(function() {
+    $('#timelapse').change(function() {
+      $('#selectTimelapseSource').prop('disabled', function(i,v){return !v;});
+      $('#timelapseInterval').prop('disabled', function(i,v){return !v;});;
+    })
+  })
+</script>
   </body>
 </html>
