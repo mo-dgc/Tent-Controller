@@ -1,10 +1,5 @@
 <?php
-session_start();
-
-if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
-  header('Location: index.php');
-  die;
-}
+require_once("authenticate.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,9 +77,9 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
         <div class="row">
             <div class="col-md-9">
                 <p class="text-center">
-                    <img class="img-responsive img-rounded" src="static/img/tomatoes.jpg" alt="Latest snap from camera" />
-                    <br />
-                    <small>Add timestamp here</small>
+                    <!--<img class="img-responsive img-rounded" src="static/img/tomatoes.jpg" alt="Latest snap from camera" />-->
+                    <img class="img-responsive img-rounded" src="http://gtmcs.local:8765/picture/1/current/" alt="Latest picture" />
+                    <small>Tent Cam Name</small>
                 </p>
             </div>
             <div class="col-md-3">

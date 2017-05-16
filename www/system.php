@@ -1,10 +1,5 @@
 <?php
-session_start();
-
-if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
-  header('Location: index.php');
-  die;
-}
+require_once("authenticate.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +20,8 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
 
     <!-- Custom styles for this template -->
     <link href="./static/css/navbar-fixed-top.css" rel="stylesheet">
-
+    
+    <link href="./static/css/bootstrap-toggle.min.css" rel="stylesheet">
   </head>
 
   <body>
@@ -74,8 +70,140 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
     <div class="container">
       <!-- Main component for a primary marketing message or call to action -->
       <div class="row">
-        <h1>System</h1>
-        <p>Something, something, something, Dark Side.</p>
+        <h1>System Options</h1>
+
+        <form method="post" class="form-horizontal">
+
+<fieldset>
+<legend>Overview Screen</legend>
+
+<!-- Select Basic -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="selectOverview">Display for overview</label>
+<div class="col-md-4">
+<select id="selectOverview" name="selectOverview" class="form-control input-md">
+<option>Data Only</option>
+<option id="selOverviewLivestream" disabled>Display Livestream</option>
+<option id="selOverviewSnapshot" disabled>Display Snapshot</option>
+</select>
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="streamurl">Stream URL</label>  
+<div class="col-md-4">
+<input id="streamurl" name="streamurl" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="snapshoturl">Snapshot URL</label>  
+<div class="col-md-4">
+<input id="snapshoturl" name="snapshoturl" type="text" class="form-control input-md">
+</div>
+</div>
+
+</fieldset>
+
+<fieldset>
+<legend>Timelapse</legend>
+
+<!-- Multiple Radios (inline) -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="timelapse">Create timelapse video?</label>
+<div class="col-md-4"> 
+<!--input type="checkbox" checked data-toggle="toggle" data-on="On Text" data-off="Off Text"....-->
+<input id="timelapse" name="timelapse" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+</div>
+</div>
+
+
+<!-- Select Basic -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="selectTimelapseSource">Generate timelapse from</label>
+<div class="col-md-4">
+<select id="selectTimelapseSource" disabled name="selectTimelapseSource" class="form-control input-md">
+<option>Livestream</option>
+<option>Snapshots</option>
+</select>
+</div>
+</div>
+
+<!-- Text input-->
+<div id="tl_interval" class="form-group">
+<label class="col-md-4 control-label" for="timelapseInterval">Snapshot Interval (minutes)</label>  
+<div class="col-md-4">
+<input id="timelapseInterval" disabled name="timelapseInterval" type="number" placeholder="60" class="form-control input-md">
+</div>
+</div>
+
+
+</fieldset>
+
+<fieldset>
+<legend>SMTP Configuration</legend>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_server">SMTP Server</label>  
+<div class="col-md-4">
+<input id="smtp_server" name="smtp_server" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_port">SMTP Port</label>  
+<div class="col-md-4">
+<input id="smtp_port" name="smtp_port" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Checkbox -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_usetls">Use TLS?</label>
+<div class="col-md-4"> 
+<input type="checkbox" name="smpt_usetls" id="smtp_usetls" checked="checked">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_user">Username</label>  
+<div class="col-md-4">
+<input id="smtp_user" name="smtp_user" type="text" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_pass">Password</label>  
+<div class="col-md-4">
+<input id="smtp_pass" name="smtp_pass" type="password" class="form-control input-md">
+</div>
+</div>
+
+<!-- Text input-->
+<div class="form-group">
+<label class="col-md-4 control-label" for="smtp_recipients">Email recipients (comma separated)</label>  
+<div class="col-md-4">
+<input id="smtp_recipients" name="smtp_recipients" type="text" class="form-control input-md">
+</div>
+</div>
+
+</fieldset>
+
+<!-- Button -->
+<div class="form-group">
+<label class="col-md-4 control-label" for="submit"></label>
+<div class="col-md-4">
+<button id="submit" name="submit" class="btn btn-primary">Update</button>
+</div>
+</div>
+
+        </form>
       </div>
     </div> <!-- /container -->
 
@@ -86,5 +214,34 @@ if (!file_exists('users/' . $_SESSION['username'] . '.xml')) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery</script>
     <script src="./static/js/bootstrap.min.js"></script>
+    <script src="./static/js/bootstrap-toggle.min.js"></script>
+<script>
+function isUrlValid(url) {
+    return /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i.test(url);
+}
+
+// Toggle Timelapse fields
+$(function() {
+$('#timelapse').change(function() {
+$('#selectTimelapseSource').prop('disabled', function(i,v){return !v;});
+$('#timelapseInterval').prop('disabled', function(i,v){return !v;});;
+})
+})
+
+// Validate Stream URL
+$('#streamurl').keyup(function(){
+ if (isUrlValid($('#streamurl').val())) {
+  $('#selOverviewLivestream').prop('disabled', false);
+ }
+});
+
+// Validate Snapshot URL
+$('#snapshoturl').keyup(function(){
+ if (isUrlValid($('#snapshoturl').val())) {
+  $('#selOverviewSnapshot').prop('disabled', false);
+ }
+});
+
+</script>
   </body>
 </html>

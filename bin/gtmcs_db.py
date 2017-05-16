@@ -3,7 +3,7 @@
 
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String
+from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -17,7 +17,21 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False, unique=True)
     password = Column(String(250), nullable=False)
-  
+
+class System(Base):
+    __tablename__ = 'system'
+    # Have to store key / value as all strings because of sqlalchemy
+    # Shouldn't be an issue as we'll know which should be ints
+    name = Column(String(250), nullable=False, unique=True, primary_key=True)
+    value = Column(String(250))
+
+class Sessions(Base):
+    __tablename__ = 'sessions'
+    id = Column(Integer, primary_key=True)
+    userid = Column(Integer, ForeignKey("user.id"), nullable=False)
+    key = Column(String(60), nullable=False)
+    expires = Column(DateTime, nullable=False)
+
 # Create an engine that stores data in the local directory's
 # sqlalchemy_example.db file.
 engine = create_engine('sqlite:///gtmcs.db')

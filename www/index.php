@@ -1,42 +1,43 @@
 <?php
 
-$filename = "../gtmcs.db";
 $error = false;
 $errormsg = "";
 
-try {
-    $sqlite = new SQLite3($filename);
-}
-catch (Exception $exception) {
-    $errordb = true;
-    $errormsg = $exception->getMessage();
-}
+$username = null;
+$password = null;
 
 if (isset($_POST['login'])) {
-    $username = preg_replace('/[^A-Za-z]/', '', $_POST['inputUser']);
-    $password = $_POST['inputPassword'];
+	require_once("database.php");
+	$username = preg_replace('/[^A-Za-z]/', '', $_POST["inputUser"]);
+	$password = $_POST["inputPassword"];
+	
+    $query = $db->prepare("SELECT id,password FROM user WHERE name=:user");
+    $query->bindParam(":user", $username);
+    $result = $query->execute();
+    $row = $result->fetchArray(SQLITE3_ASSOC);
+    $query->close();
 
-    $query = "SELECT password FROM user WHERE name='$username'";
-    $result = $sqlite->query($query);
-    $res = $result->fetchArray();
+	if (!empty($row["id"]) && password_verify($password, $row["password"])) {
+        $userid = $row["id"];
+        session_start();
+        $session_key = session_id();
+            
+		$_SESSION['username'] = $username;
 
-    if ($res) {
-        if (password_verify($password, $res["password"])) {
-            session_start();
-            $_SESSION['username'] = $username;
-            header('Location: overview.php');
-            die();
-        } 
-
-        $error = true;
-        $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
+        $query = $db->prepare("INSERT INTO sessions (userid, key, expires) VALUES (:userid, :key, DateTime('now','localtime','+1 hour'))");
+        $query->bindParam(":userid", $userid);
+        $query->bindParam(":key", $session_key);
+        $query->execute();
+        $query->close();
+            
+        header('Location: overview.php');
+		die;
     }
     else {
         $error = true;
         $errormsg = "<strong>Unknown username or password.</strong> Please try again.";
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,11 +61,10 @@ if (isset($_POST['login'])) {
 
     <div class="container">
     	<?php if ($error) { ?>
-    	<div class="alert alert-danger" role="alert">
-    		<?php echo $error_msg; ?>
+    	<div class="alert alert-danger text-center" role="alert">
+    		<?php echo $errormsg; ?>
     	</div>
     	<?php } ?>
-
 
         <form method="post" action="" class="form-signin">
             <h2 class="form-signin-heading">Please sign in</h2>
