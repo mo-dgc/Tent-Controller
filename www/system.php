@@ -75,10 +75,15 @@ require_once("authenticate.php");
         <form method="post" class="form-horizontal">
 
 <fieldset>
-<legend>Overview Screen</legend>
+<legend>Dashboard</legend>
 
 <!-- Select Basic -->
 <div class="form-group">
+<!--
+<span tabindex="0" class="glyphicon glyphicon-info-sign" role="button" data-toggle="popover" data-trigger="focus" title="Display for overview" data-content="What to display on the dashboard page. Livestream and Snapshot requires valid URLs in the Stream and Snapshot URL fields below."></span>
+-->
+<span tabindex="0" class="glyphicon glyphicon-info-sign" role="button" data-toggle="popover" data-trigger="focus" data-content="What to display on the dashboard page. Livestream and Snapshot require a valid URL to be populated in the Stream and Snapshot URLs below."></span>
+
 <label class="col-md-4 control-label" for="selectOverview">Display for overview</label>
 <div class="col-md-4">
 <select id="selectOverview" name="selectOverview" class="form-control input-md">
@@ -91,6 +96,7 @@ require_once("authenticate.php");
 
 <!-- Text input-->
 <div class="form-group">
+<span tabindex="0" class="glyphicon glyphicon-info-sign" role="button" data-toggle="popover" data-trigger="focus"  data-content="URL for Livestream"></span>
 <label class="col-md-4 control-label" for="streamurl">Stream URL</label>  
 <div class="col-md-4">
 <input id="streamurl" name="streamurl" type="text" class="form-control input-md">
@@ -140,6 +146,20 @@ require_once("authenticate.php");
 </div>
 
 
+</fieldset>
+
+<fieldset>
+<legend>Radios</legend>
+
+<!-- take a look at http://itsolutionstuff.com/post/simple-add-remove-input-fields-dynamically-using-jquery-with-bootstrapexample.html -->
+<!-- Text input -->
+<div class="form-group">
+<button disabled class="btn btn-primary"">Add Radio Device</button>
+<label class="col-md-4 control-label" for="radio">Radio device</label>
+<div class="col-md-4">
+<input id="radio" name="radio" type="text" class="form-control input-md">
+</div>
+</div>
 </fieldset>
 
 <fieldset>
@@ -241,6 +261,16 @@ $('#snapshoturl').keyup(function(){
   $('#selOverviewSnapshot').prop('disabled', false);
  }
 });
+
+// Activate all popovers
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+
+// Make popovers dismiss on click
+$('.popover-dismiss').popover({
+  trigger: 'focus'
+})
 
 </script>
   </body>
