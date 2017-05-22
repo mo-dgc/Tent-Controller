@@ -14,6 +14,25 @@
 #    Fix: edit '/etc/php/7.0/cli/conf.d/20-pdo_sqlite.ini'
 #         comment out extension: ';extension=pdo_sqlite.so' 
 
+# If using local cam - add to /boot/config.txt
+# start_x=1
+# start_x=1
+# gpu_mem=144
+# disable_camera_led = 1
+#
+# echo "bcm2835-v4l2" | sudo tee -a /etc/modules
+# or 
+# sudo sh -c 'echo "bcm2835-v4l2" >> /etc/modules'
+# then reboot - the module actually creates /dev/video0
+
+# motioneyeos vs motioneye
+# boardctl.py
+# extractl.py
+# ipctl.py
+# platformupdate.py
+# servicectl.py
+# streameyectl.py
+# watchctl.py
 
 INSTALL="/home/pi/gtmcs"
 BINROOT="$INSTALL/bin/"
@@ -55,6 +74,23 @@ update_sources() {
 	else
 		update_preferences
 	fi
+}
+
+disable_serial() {
+	msg "Disabling serial console"
+	systemctl stop serial-getty@ttyS0.service
+	systemctl disable serial-getty@ttyS0.service
+	
+	if grep -q "console=serial0,115200" /boot/cmdline.txt; then
+		msg "Removing serial console from /boot/cmdline.txt"
+		sed -i 's/console=serial0,115200 //' /boot/cmdline.txt
+	fi
+
+	if ! grep -q "dtoverlay=pi3-miniuart-bt" /boot/config.txt; then
+		msg "Swapping serial ports"
+		echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
+	fi
+	
 }
 
 update_packages() {
@@ -173,6 +209,8 @@ if [ ! -z ${SKIPUPDATES} ]; then
 fi
 
 install_system_software
+
+disable_serial
 
 # Now we need to move over our stuff from Github
 msg "Installing components"
