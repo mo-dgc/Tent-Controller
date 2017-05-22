@@ -3,37 +3,6 @@
 # This script installs all software components and configures the system
 # to run the Tent Controller.
 
-# @TODO: Check if CLI PHP getting error after installing php7.0-sqlite3 on fresh install
-#    Test: 
-#			pi@gtmcs:~/www/gtmcs $ php -v
-#			PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/pdo_sqlite.so' - /usr/lib/php/20151012/pdo_sqlite.so: undefined symbol: php_pdo_unregister_driver in Unknown on line 0
-#			PHP 7.0.16-3 (cli) (built: Feb 22 2017 10:03:06) ( NTS )
-#			Copyright (c) 1997-2017 The PHP Group
-#			Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies
-#			    with Zend OPcache v7.0.16-3, Copyright (c) 1999-2017, by Zend Technologies
-#    Fix: edit '/etc/php/7.0/cli/conf.d/20-pdo_sqlite.ini'
-#         comment out extension: ';extension=pdo_sqlite.so' 
-
-# If using local cam - add to /boot/config.txt
-# start_x=1
-# start_x=1
-# gpu_mem=144
-# disable_camera_led = 1
-#
-# echo "bcm2835-v4l2" | sudo tee -a /etc/modules
-# or 
-# sudo sh -c 'echo "bcm2835-v4l2" >> /etc/modules'
-# then reboot - the module actually creates /dev/video0
-
-# motioneyeos vs motioneye
-# boardctl.py
-# extractl.py
-# ipctl.py
-# platformupdate.py
-# servicectl.py
-# streameyectl.py
-# watchctl.py
-
 INSTALL="/home/pi/gtmcs"
 BINROOT="$INSTALL/bin/"
 WEBROOT="$INSTALL/www/"
@@ -77,6 +46,9 @@ update_sources() {
 }
 
 disable_serial() {
+	msg "Disabling Bluetooth"
+	systemctl disable hciuart
+	
 	msg "Disabling serial console"
 	systemctl stop serial-getty@ttyS0.service
 	systemctl disable serial-getty@ttyS0.service
@@ -208,9 +180,12 @@ if [ ! -z ${SKIPUPDATES} ]; then
 	upgrade_system
 fi
 
+# Disable and swap serial
+disable_serial
+
+# Install required software
 install_system_software
 
-disable_serial
 
 # Now we need to move over our stuff from Github
 msg "Installing components"
