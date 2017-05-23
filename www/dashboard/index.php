@@ -18,8 +18,8 @@ $relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
   <!-- Bootstrap core CSS -->
   <link href="/static/css/bootstrap.min.css" rel="stylesheet">
   <link href="/static/css/font-awesome.min.css" rel="stylesheet">
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-  <link href="dashboard.css" rel="stylesheet">
+  <link href="/static/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <link href="/static/css/dashboard.css" rel="stylesheet">
 </head>
 <body>
   <div class="container-fluid">
@@ -113,8 +113,8 @@ $relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>window.jQuery</script>
   <script src="/static/js/bootstrap.min.js"></script>
-  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <script src="/static/js/bootstrap-toggle.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="dashboard.js"></script>
+  <script src="/static/js/dashboard.js"></script>
 </body>
 </html>
