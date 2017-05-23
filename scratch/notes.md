@@ -64,19 +64,9 @@ Then reboot
 
 # @TODO
 
-* Check if CLI PHP getting error after installing php7.0-sqlite3 on fresh insttall
-  Test:
-  ```
-  $ php -v
-  PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/pdo_sqlite.so' - /usr/lib/php/20151012/pdo_sqlite.so: undefined symbol: php_pdo_unregister_driver in Unknown on line 0
-  pdo_sqlite.so: undefined symbol: php_pdo_unregister_driver in Unknown on line 0
-	PHP 7.0.16-3 (cli) (built: Feb 22 2017 10:03:06) ( NTS )
-	Copyright (c) 1997-2017 The PHP Group
-	Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies
-  	  with Zend OPcache v7.0.16-3, Copyright (c) 1999-2017, by Zend Technologies
-  ```
-  Fix:
-  	edit '/etc/php/7.0/cli/conf.d/20-pdo_sqlite.ini' and comment out extension: ';extension=pdo_sqlite.so' 
+* Check install on new system again - last time had a few issues
+* Check on doing install via PiBakery instead or just do our distro
+* Change kiosk to use chromium to get drag scrolling
 
 
 # Random
