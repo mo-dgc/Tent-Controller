@@ -29,7 +29,18 @@ overflow-y:hidden;
 legend {
 color: white;
 }
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+// color: black;
+ //background-color: #607d8b;
+background-color: #455a64;
+}
+.nav-pills > li.active > a:hover {
+// background-color: #efcb00;
+// color:black;
+}
 </style>
+
   </head>
 <body>
 <div class="container-fluid">
@@ -52,10 +63,19 @@ color: white;
 </a></li>
 </ul>
 <div class="tab-content col-sm-10 no-gutters">
-        <div class="tab-pane active" id="tab_dashboard">
-         <h4>Dashboard</h4>
-<p>Health guages will go on this page</p>
-        </div>
+
+<div class="tab-pane active" id="tab_dashboard">
+<legend>Dashboard</legend>
+
+<div class="row text-center">
+<div class="col-sm-4" id="chart_temp"></div>
+<div class="col-sm-4" id="chart_rh"></div>
+<div class="col-sm-4" id="chart_vpd"></div>
+</div>
+<div class="row text-center">
+<div class="col-sm-12" id="chart_history"></div>
+</div>
+</div>
  
 <div class="tab-pane align-items-center no-gutters" id="tab_camera">
 <img class="img-responsive img-rounded" src="<?php echo $stream_url; ?>" alt="Image stream" />
@@ -119,5 +139,7 @@ color: white;
     <script>window.jQuery</script>
     <script src="/static/js/bootstrap.min.js"></script>
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="dashboard.js"></script>
 </body>
 </html>
