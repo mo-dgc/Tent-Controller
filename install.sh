@@ -36,6 +36,8 @@ update_sources() {
 		echo "$repo" >> /etc/apt/sources.list
 	fi
 
+	update_packages
+
 	if [ -f /etc/apt/preferences ]; then
 		if ! grep -q "Pin: release n=jessie" /etc/apt/preferences; then
 			update_preferences
@@ -199,4 +201,6 @@ msg "Fixing permissions"
 chown -R pi:pi "$INSTALL"
 
 msg "Installation is complete.  Please refer to the getting started wiki."
+msg "Please reboot the system."
+
 
