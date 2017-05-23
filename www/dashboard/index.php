@@ -32,16 +32,7 @@ $relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
           <a href="#tab_camera" data-toggle="pill"><i class="fa fa-camera fa-3x fa-fw"></i></a>
         </li>
         <li class="text-center">
-          <a href="#tab_charts" data-toggle="pill"><i class="fa fa-line-chart fa-3x fa-fw"></i></a>
-        </li>
-        <li class="text-center">
-          <a href="#tab_charts" data-toggle="pill"><i class="fa fa-pie-chart fa-3x fa-fw"></i></a>
-        </li>
-        <li class="text-center">
           <a href="#tab_charts" data-toggle="pill"><i class="fa fa-bar-chart fa-3x fa-fw"></i></a>
-        </li>
-        <li class="text-center">
-          <a href="#tab_charts" data-toggle="pill"><i class="fa fa-area-chart fa-3x fa-fw"></i></a>
         </li>
         <li class="text-center">
           <a href="#tab_schedules" data-toggle="pill"><i class="fa fa-calendar fa-3x fa-fw"></i></a>
