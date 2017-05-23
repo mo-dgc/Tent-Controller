@@ -37,7 +37,8 @@ var optionsRH = {
 };
 
 var optionsVPD = {
-//  width: 400, 
+//  width: 400,
+  width: '100%', 
   height: 300,
   redFrom: 10, redTo: 14,
   yellowFrom: 5, yellowTo: 7.5,

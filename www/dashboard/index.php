@@ -2,6 +2,7 @@
 // $stream_url = "http://gtmcs.local:8765/picture/1/current/";
 $stream_url = "/static/img/tomatoes.jpg";
 //$stream_url = "http://pi0.local:8080/";
+$relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,9 +73,10 @@ background-color: #455a64;
 <div class="col-sm-4" id="chart_rh"></div>
 <div class="col-sm-4" id="chart_vpd"></div>
 </div>
-<div class="row text-center">
-<div class="col-sm-12" id="chart_history"></div>
-</div>
+<div class="row text-center" id="chart_history"></div>
+
+<!--<div class="col-sm-12" id="chart_history"></div>
+</div>-->
 </div>
  
 <div class="tab-pane align-items-center no-gutters" id="tab_camera">
@@ -96,16 +98,16 @@ background-color: #455a64;
 <legend>Relay Control</legend>
 
 <div class="form-group">
- <label class="col-sm-5 control-label text-right" for="relay1">Relay 1 Label</label>
+ <label class="col-sm-5 control-label text-right" for="relay1"><?php echo $relays[0]; ?></label>
  <div class="col-sm-5">
-  <input id="relay1" name="relay1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+  <input id="relay1" name="relay1" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" checked>
  </div>
 </div>
 </fieldset>
 
 <fieldset>
 <div class="form-group">
- <label class="col-sm-5 control-label text-right" for="relay2">Relay 2 Label</label>
+ <label class="col-sm-5 control-label text-right" for="relay2"><?php echo $relays[1]; ?></label>
  <div class="col-sm-5">
   <input id="relay2" name="relay2" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
  </div>
@@ -114,15 +116,15 @@ background-color: #455a64;
 
 <fieldset>
 <div class="form-group">
- <label class="col-sm-5 control-label text-right" for="relay3">Relay 3 Label</label>
+ <label class="col-sm-5 control-label text-right" for="relay3"><?php echo $relays[2]; ?></label>
  <div class="col-sm-5">
-  <input id="relay3" name="relay3" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+  <input id="relay3" name="relay3" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" checked>
  </div>
 </div>
 </fieldset>
 <fieldset>
 <div class="form-group">
- <label class="col-sm-5 control-label text-right" for="relay4">Relay 4 Label</label>
+ <label class="col-sm-5 control-label text-right" for="relay4"><?php echo $relays[3]; ?></label>
  <div class="col-sm-5">
   <input id="relay4" name="relay4" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
  </div>
