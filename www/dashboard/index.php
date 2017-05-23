@@ -41,6 +41,9 @@ $relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
           <a href="#tab_relays" data-toggle="pill"><i class="fa fa-plug fa-3x fa-fw"></i></a>
         </li>
         <li class="text-center">
+          <a href="#tab_settings" data-toggle="pill"><i class="fa fa-gear fa-3x fa-fw"></i></a>
+        </li>
+        <li class="text-center">
           <a href="#"  data-toggle="pill" onClick="window.location.reload()"><i class="fa fa-refresh fa-3x fa-fw"></i></a>
         </li>
       </ul>
