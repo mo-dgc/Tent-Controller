@@ -1,5 +1,10 @@
 <?php
 require_once("authenticate.php");
+
+// $stream_url = "http://gtmcs.local:8765/picture/1/current/";
+// $stream_url = "/static/img/tomatoes.jpg";
+$stream_url = "http://pi0.local:8080/";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,8 +82,7 @@ require_once("authenticate.php");
         <div class="row">
             <div class="col-md-9">
                 <p class="text-center">
-                    <!--<img class="img-responsive img-rounded" src="static/img/tomatoes.jpg" alt="Latest snap from camera" />-->
-                    <img class="img-responsive img-rounded" src="http://gtmcs.local:8765/picture/1/current/" alt="Latest picture" />
+                    <img class="img-responsive img-rounded" src="<?php echo $stream_url; ?>" alt="Latest picture" />
                     <small>Tent Cam Name</small>
                 </p>
             </div>

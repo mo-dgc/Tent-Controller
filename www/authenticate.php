@@ -6,6 +6,9 @@ $session_key = session_id();
 
 require_once("database.php");
 
+// workaround for kiosk
+if (!$_SERVER["REMOTE_ADDR"] == "127.0.0.1") {
+
 $query = $db->prepare("SELECT id FROM sessions WHERE key=:key AND expires > DateTime('now','localtime')");
 $query->bindParam(":key", $session_key );
 $result = $query->execute();
@@ -22,4 +25,5 @@ $query->bindParam(":id", $session_id);
 $query->execute();
 $query->close();
 
+}
 ?>
