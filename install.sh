@@ -36,7 +36,9 @@ update_sources() {
 		echo "$repo" >> /etc/apt/sources.list
 	fi
 
-	update_packages
+	if [ ! -z ${SKIPUPDATES} ]; then
+		update_packages
+	fi
 
 	if [ -f /etc/apt/preferences ]; then
 		if ! grep -q "Pin: release n=jessie" /etc/apt/preferences; then
@@ -114,7 +116,7 @@ server {
     # and the rewrite to use \`/subfolder/index.php\`
     location / {
         #try_files $uri $uri/ /index.html /index.php;
-        try_files $uri $uri/ $uri.php$is_args$query_string;
+        try_files \$uri \$uri/ \$uri.php\$is_args\$query_string;
     }
     ## End - Index
 
@@ -178,7 +180,6 @@ update_sources
 
 # This is just for dev - remove SKIPUPDATES variable for final version
 if [ ! -z ${SKIPUPDATES} ]; then
-	update_packages
 	upgrade_system
 fi
 
