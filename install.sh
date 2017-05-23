@@ -3,18 +3,6 @@
 # This script installs all software components and configures the system
 # to run the Tent Controller.
 
-# @TODO: Check if CLI PHP getting error after installing php7.0-sqlite3 on fresh install
-#    Test: 
-#			pi@gtmcs:~/www/gtmcs $ php -v
-#			PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/pdo_sqlite.so' - /usr/lib/php/20151012/pdo_sqlite.so: undefined symbol: php_pdo_unregister_driver in Unknown on line 0
-#			PHP 7.0.16-3 (cli) (built: Feb 22 2017 10:03:06) ( NTS )
-#			Copyright (c) 1997-2017 The PHP Group
-#			Zend Engine v3.0.0, Copyright (c) 1998-2017 Zend Technologies
-#			    with Zend OPcache v7.0.16-3, Copyright (c) 1999-2017, by Zend Technologies
-#    Fix: edit '/etc/php/7.0/cli/conf.d/20-pdo_sqlite.ini'
-#         comment out extension: ';extension=pdo_sqlite.so' 
-
-
 INSTALL="/home/pi/gtmcs"
 BINROOT="$INSTALL/bin/"
 WEBROOT="$INSTALL/www/"
@@ -48,6 +36,10 @@ update_sources() {
 		echo "$repo" >> /etc/apt/sources.list
 	fi
 
+	if [ ! -z ${SKIPUPDATES} ]; then
+		update_packages
+	fi
+
 	if [ -f /etc/apt/preferences ]; then
 		if ! grep -q "Pin: release n=jessie" /etc/apt/preferences; then
 			update_preferences
@@ -55,6 +47,26 @@ update_sources() {
 	else
 		update_preferences
 	fi
+}
+
+disable_serial() {
+	msg "Disabling Bluetooth"
+	systemctl disable hciuart
+	
+	msg "Disabling serial console"
+	systemctl stop serial-getty@ttyS0.service
+	systemctl disable serial-getty@ttyS0.service
+	
+	if grep -q "console=serial0,115200" /boot/cmdline.txt; then
+		msg "Removing serial console from /boot/cmdline.txt"
+		sed -i 's/console=serial0,115200 //' /boot/cmdline.txt
+	fi
+
+	if ! grep -q "dtoverlay=pi3-miniuart-bt" /boot/config.txt; then
+		msg "Swapping serial ports"
+		echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
+	fi
+	
 }
 
 update_packages() {
@@ -104,7 +116,7 @@ server {
     # and the rewrite to use \`/subfolder/index.php\`
     location / {
         #try_files $uri $uri/ /index.html /index.php;
-        try_files $uri $uri/ $uri.php$is_args$query_string;
+        try_files \$uri \$uri/ \$uri.php\$is_args\$query_string;
     }
     ## End - Index
 
@@ -168,11 +180,15 @@ update_sources
 
 # This is just for dev - remove SKIPUPDATES variable for final version
 if [ ! -z ${SKIPUPDATES} ]; then
-	update_packages
 	upgrade_system
 fi
 
+# Disable and swap serial
+disable_serial
+
+# Install required software
 install_system_software
+
 
 # Now we need to move over our stuff from Github
 msg "Installing components"
@@ -186,4 +202,6 @@ msg "Fixing permissions"
 chown -R pi:pi "$INSTALL"
 
 msg "Installation is complete.  Please refer to the getting started wiki."
+msg "Please reboot the system."
+
 

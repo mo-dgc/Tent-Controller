@@ -1,0 +1,20 @@
+body {
+  background-color: #222;
+  color: white;
+  overflow-y:hidden;
+}
+
+legend {
+  color: white;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+  //color: black;
+  //background-color: #607d8b;
+  background-color: #455a64;
+}
+
+.nav-pills > li.active > a:hover {
+  // background-color: #efcb00;
+  // color:black;
+}

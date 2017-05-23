@@ -38,3 +38,45 @@ if (password_verify($password, $row["password"])) {
 }
 ?>
 ```
+
+# For users that want to use Pi instead of Arduino:
+
+## Relays:
+* Pi controlled 5v relay: https://www.raspberrypi.org/forums/viewtopic.php?t=36225
+* https://docs.google.com/file/d/0B5-HND9HJkXWSTQtYlFTZ3VyODA/edit
+
+## Camera
+
+If using local cam - add to /boot/config.txt
+```
+start_x=1
+gpu_mem=144
+disable_camera_led=1
+```
+Then:
+```
+echo "bcm2835-v4l2" | sudo tee -a /etc/modules
+-or-
+sudo sh -c 'echo "bcm2835-v4l2" >> /etc/modules'
+```
+Then reboot
+
+
+# @TODO
+
+* Check install on new system again - last time had a few issues
+* Check on doing install via PiBakery instead or just do our distro
+* Change kiosk to use chromium to get drag scrolling
+
+
+# Random
+motioneyeos vs motioneye
+* boardctl.py
+* extractl.py
+* ipctl.py
+* platformupdate.py
+* servicectl.py
+* streameyectl.py
+* watchctl.py
+
+
