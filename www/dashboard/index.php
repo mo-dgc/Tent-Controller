@@ -1,8 +1,10 @@
 <?php
-// $stream_url = "http://gtmcs.local:8765/picture/1/current/";
+//$stream_url = "http://gtmcs.local:8765/picture/1/current/";
 $stream_url = "/static/img/tomatoes.jpg";
 //$stream_url = "http://pi0.local:8080/";
 $relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
+
+$desktop = ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") ? False : True;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,31 +22,50 @@ $relays = array("Grow light", "Reservoir Pump", "Fan #1", "Dehumidifier");
   <link href="/static/css/font-awesome.min.css" rel="stylesheet">
   <link href="/static/css/bootstrap-toggle.min.css" rel="stylesheet">
   <link href="/static/css/dashboard.css" rel="stylesheet">
+<?php if ($desktop) { ?>
+<style>
+body { padding-top: 10px; }
+</style>
+<?php } ?>
 </head>
 <body>
   <div class="container-fluid">
     <div class="row">
       <ul class="nav nav-pills nav-stacked col-sm-2">
         <li class="active text-center">
-          <a href="#tab_dashboard" data-toggle="pill"><i class="fa fa-dashboard fa-3x fa-fw"></i></a>
+          <a href="#tab_dashboard" data-toggle="pill"><i class="fa fa-dashboard fa-3x fa-fw"></i>
+<?php if ($desktop) { echo "<br />Dashboard"; } ?>
+</a>
         </li>
         <li class="text-center">
-          <a href="#tab_camera" data-toggle="pill"><i class="fa fa-camera fa-3x fa-fw"></i></a>
+          <a href="#tab_camera" data-toggle="pill"><i class="fa fa-camera fa-3x fa-fw"></i>
+<?php if ($desktop) { echo "<br />Camera"; } ?>
+</a>
         </li>
         <li class="text-center">
-          <a href="#tab_charts" data-toggle="pill"><i class="fa fa-bar-chart fa-3x fa-fw"></i></a>
+          <a href="#tab_charts" data-toggle="pill"><i class="fa fa-bar-chart fa-3x fa-fw"></i>
+<?php if ($desktop) { echo "<br />Dashboard"; } ?>
+</a>
         </li>
         <li class="text-center">
-          <a href="#tab_schedules" data-toggle="pill"><i class="fa fa-calendar fa-3x fa-fw"></i></a>
+          <a href="#tab_schedules" data-toggle="pill"><i class="fa fa-calendar fa-3x fa-fw"></i>
+<?php if ($desktop) { echo "<br />Schedules"; } ?>
+</a>
         </li>
         <li class="text-center">
-          <a href="#tab_relays" data-toggle="pill"><i class="fa fa-plug fa-3x fa-fw"></i></a>
+          <a href="#tab_relays" data-toggle="pill"><i class="fa fa-plug fa-3x fa-fw"></i>
+<?php if ($desktop) { echo "<br />Relays"; } ?>
+</a>
         </li>
+<?php if ($desktop) { ?>
         <li class="text-center">
-          <a href="#tab_settings" data-toggle="pill"><i class="fa fa-gear fa-3x fa-fw"></i></a>
+          <a href="#tab_settings" data-toggle="pill"><i class="fa fa-gear fa-3x fa-fw"></i><br />Settings</a>
         </li>
+<?php } ?>
         <li class="text-center">
-          <a href="#"  data-toggle="pill" onClick="window.location.reload()"><i class="fa fa-refresh fa-3x fa-fw"></i></a>
+          <a href="#"  data-toggle="pill" onClick="window.location.reload()"><i class="fa fa-refresh fa-3x fa-fw"></i>
+<?php if ($desktop) { echo "<br />Dev Reload"; } ?>
+</a>
         </li>
       </ul>
 
