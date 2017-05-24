@@ -63,10 +63,25 @@ Then reboot
 
 
 # @TODO
-
+* Move Streams to DB
+  * stream name
+  * stream url
+  * stream authentication - 0=none,1=basic
+  * stream auth user
+  * stream auth pass
 * Check install on new system again - last time had a few issues
 * Check on doing install via PiBakery instead or just do our distro
+* Add option to rotate through all feeds/snapshots
+
+# @TODO - Kiosk
+* Options for guages?  Default to just text only with thresholds?
+* Add option for video/pic feeds on kiosk mode (for the security minded)
+* Come up with some auth token for kiosk mode to display offbox
 * Change kiosk to use chromium to get drag scrolling
+* Add option to rotate through all feeds/snapshots
+
+# @TODO - Sub Projects
+* Pi Zero W with Raspbian and setup streameye
 
 
 # Random

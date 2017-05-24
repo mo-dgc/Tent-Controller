@@ -24,7 +24,7 @@ $desktop = ($_SERVER["REMOTE_ADDR"] == "127.0.0.1") ? False : True;
   <link href="/static/css/dashboard.css" rel="stylesheet">
 <?php if ($desktop) { ?>
 <style>
-body { padding-top: 10px; }
+body { padding-top: 15px; }
 </style>
 <?php } ?>
 </head>
