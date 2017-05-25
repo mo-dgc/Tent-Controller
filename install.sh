@@ -27,7 +27,6 @@ fi
 
 # Are we running under sudo?  If not, relaunch.
 if [ "$UID" != "0" ]; then
-		log "Relaunching with sudo"
 		sudo -H "$0" "$@"
 	exit $?
 fi
