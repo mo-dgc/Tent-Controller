@@ -1,41 +1,11 @@
 #!/bin/bash
 
-. funcs.sh
+INSTALLER_DIR=$(dirname $(readlink -f $0))
+INSTALL="/home/pi/gtmcs"
+BINROOT="$INSTALL/bin/"
+WEBROOT="$INSTALL/www/"
 
-# OPTIONS:
-
-# COMMAND LINE PROPERTIES:
-
-# SYSTEM PROPERTIES:
-
-read_linux_release() {
-    LINE=`grep "^ID=" /etc/os-release`
-    echo "${LINE##*=}"
-}
-
-check_os_support() {
-	SYSTEM=$1
-	RELEASE=$2
-
-	case $SYSTEM in
-		"Darwin")
-			return 1;
-			;;
-		"Linux")
-			case $RELEASE in
-				"debian")
-					return 1;
-					;;
-				"ubuntu")
-					return 1;
-					;;
-				"raspbian")
-					return 0;
-					;;
-			esac
-	esac
-	return 1;
-}
+. $INSTALLER_DIR/funcs.sh
 
 SYSTEM=`uname -s`
 RELEASE=$([ $SYSTEM = "Darwin" ] && echo `sw_vers -productVersion` || read_linux_release)
@@ -45,17 +15,19 @@ if ! check_os_support $SYSTEM $RELEASE; then
 	exit 1
 fi
 
-# DEPENDENCIES:
-
 # check if sudo is available
 if ! command -v sudo > /dev/null 2>&1; then
 	printf "%s\n" "The command sudo was not found."
 	exit 1
 fi
 
-
-
+# Are we running under sudo?  If not, relaunch.
+if [ "$UID" != "0" ]; then
+	sudo -H "$0" "$@"
+	exit $?
+fi
 
 
 msg "${SYSTEM}"
 msg "${RELEASE}"
+msg `whoami`

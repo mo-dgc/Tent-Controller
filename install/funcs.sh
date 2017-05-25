@@ -14,3 +14,32 @@ White="\033[0;37m"        # White
 msg() {
 	echo -e "$Green$(date '+%Y-%m-%d %H:%M:%S'): $Yellow$1$Color_Off"
 }
+
+read_linux_release() {
+    LINE=`grep "^ID=" /etc/os-release`
+    echo "${LINE##*=}"
+}
+
+check_os_support() {
+	SYSTEM=$1
+	RELEASE=$2
+
+	case $SYSTEM in
+		"Darwin")
+			return 1;
+			;;
+		"Linux")
+			case $RELEASE in
+				"debian")
+					return 1;
+					;;
+				"ubuntu")
+					return 1;
+					;;
+				"raspbian")
+					return 0;
+					;;
+			esac
+	esac
+	return 1;
+}
