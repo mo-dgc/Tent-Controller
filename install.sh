@@ -34,12 +34,21 @@ fi
 
 msg "Starting GT:MCS Installation"
 
+# @TODO: Check for RPi hardware:
+ARCH=`uname -m`
+
+if grep -q "^arm" $ARCH; then
+	# Determine what type of hardware
+	# Do Hardware installer script
+	msg "Would do hardware scripts here."
+fi
+
 if [ -f $INSTALLER_DIR/install.$RELEASE.sh ]; then
 	msg "Running $RELEASE specific configurations"
-	$INSTALLER_DIR/install.$RELEASE.sh
+	$INSTALLER_DIR/install.os.$RELEASE.sh
 else
 	err ">>> $RELEASE installer missing <<<"
-	err "$INSTALLER_DIR/install.$RELEASE.sh was not found."
+	err "$INSTALLER_DIR/install.os.$RELEASE.sh was not found."
 	err "Please open a ticket for this issue on GitHub."
 	exit 1
 fi

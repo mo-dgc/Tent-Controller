@@ -2,11 +2,9 @@
 
 To add additional OS support, use the following guidelines:
 
-Should be named ```install.DISTRO.sh```.
+Should be named ```install.os.DISTRO.sh```.
 
-Should do any hardware/platform specific set up tasks (mainly for embedded and SBC - Raspbian, C.H.I.P., etc).
-
-Should install the required software packages:
+Should do any OS specific set up tasks and install the required software packages:
 
 * Git
 * Python 3 w/Pip
@@ -15,4 +13,11 @@ Should install the required software packages:
 * nginx
 * php7-fpm
 
+# Hardware Specific Installer scirpts
+
+To add additional hardware support use the following guidelines:
+
+Should be named ```install.hw.PLATFOM.sh```.
+
+Should do any hardware specific set up tasks, such as Raspberry Pi, C.H.I.P, etc.
 
