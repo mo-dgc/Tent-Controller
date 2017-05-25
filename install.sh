@@ -7,6 +7,8 @@ WEBROOT="$INSTALL/www/"
 
 . $INSTALLER_DIR/funcs.sh
 
+init_log
+
 SYSTEM=`uname -s`
 RELEASE=$([ $SYSTEM = "Darwin" ] && echo `sw_vers -productVersion` || read_linux_release)
 
@@ -27,7 +29,8 @@ fi
 
 # Are we running under sudo?  If not, relaunch.
 if [ "$UID" != "0" ]; then
-        sudo -H "$0" "$@"
+		log "Relaunching with sudo"
+		sudo -H "$0" "$@"
 	exit $?
 fi
 

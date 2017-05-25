@@ -13,10 +13,20 @@ White="\033[0;37m"        # White
 
 msg() {
 	echo -e "$Green$(date '+%Y-%m-%d %H:%M:%S'): $Yellow$1$Color_Off"
+	echo "$(date '+%Y-%m-%d %H:%M:%S'): $1" >> install.log
 }
 
 err() {
-	echo -e "$Red$1$Color_Off"
+	echo -e "$Red$1$Color_Off" | tee -a install.log
+	echo "$(date '+%Y-%m-%d %H:%M:%S'): $1" >> install.log
+}
+
+log() {
+	echo "$(date '+%Y-%m-%d %H:%M:%S'): $1" >> install.log
+}
+
+init_log() {
+	echo "" > install.log
 }
 
 read_linux_release() {
