@@ -1,9 +1,6 @@
 #!/bin/bash
 
 INSTALLER_DIR="$(dirname $(readlink -f $0))/installer"
-INSTALL="/home/pi/gtmcs"
-BINROOT="$INSTALL/bin/"
-WEBROOT="$INSTALL/www/"
 
 . $INSTALLER_DIR/funcs.sh
 
@@ -52,5 +49,34 @@ else
 	err "Please open a ticket for this issue on GitHub."
 	exit 1
 fi
+
+configure_php7
+configure_nginx
+
+
+# Make sure that os.installer set required variables to proceed.
+if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
+	err ">>> $RELEASE installer did not set required variables <<<"
+	err "INSTALL = '$INSTALL'"
+	err "BINROOT = '$BINROOT'"
+	err "WEBROOT = '$WEBROOT'"
+	err "APPUSER = '$APPUSER'"
+	err "Please open a ticket for this issue on GitHub."
+	exit 1
+fi
+
+# Now install components
+msg "Installing components"
+mkdir "$INSTALL"
+mkdir "$BINROOT"
+cp -R bin/* "$BINROOT"
+mkdir "$WEBROOT"
+cp -R www/* "$WEBROOT"
+
+msg "Fixing permissions"
+chown -R "$APPUSER":"$APPUSER" "$INSTALL"
+
+msg "Installation is complete.  Please refer to the getting started wiki."
+msg "Please reboot the system."
 
 msg "Installation is complete. Please reboot the system."

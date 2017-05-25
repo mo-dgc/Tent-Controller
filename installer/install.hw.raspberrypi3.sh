@@ -15,7 +15,9 @@ disable_serial() {
 		msg "Removing serial console from /boot/cmdline.txt"
 		sed -i 's/console=serial0,115200 //' /boot/cmdline.txt
 	fi
+}
 
+swap_serial() {
 	if ! grep -q "dtoverlay=pi3-miniuart-bt" /boot/config.txt; then
 		msg "Swapping serial ports"
 		echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
@@ -24,4 +26,5 @@ disable_serial() {
 
 
 disable_serial
+swap_serial
 

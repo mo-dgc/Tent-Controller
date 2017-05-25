@@ -13,6 +13,13 @@ Should do any OS specific set up tasks and install the required software package
 * nginx
 * php7-fpm
 
+Also needs to set the following variables:
+* ```INSTALL``` - Base path to install ```bin/``` and ```www/```
+* ```BINROOT``` - BIN path - default to ```$INSTALL/bin/```
+* ```WEBROOT``` - WWW path - default to ```$INSTALL/www/```
+* ```APPUSER``` - User to set as owner for ```bin``` and ```www```, PHP-fmp will also be set to run as this user
+
+
 # Hardware Specific Installer scirpts
 
 To add additional hardware support use the following guidelines:
