@@ -7,8 +7,6 @@ WEBROOT="$INSTALL/www/"
 
 . $INSTALLER_DIR/funcs.sh
 
-init_log
-
 SYSTEM=`uname -s`
 RELEASE=$([ $SYSTEM = "Darwin" ] && echo `sw_vers -productVersion` || read_linux_release)
 
