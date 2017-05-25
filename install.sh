@@ -37,16 +37,12 @@ msg "Starting GT:MCS Installation"
 # Determine hardware type
 HWTYPE=$(get_hardware_type)
 if [ ! -z "$HWTYPE" ]; then
+	# Do HW Specific configurations
 	msg "Running $HWTYPE specific configurations"
 	$INSTALLER_DIR/install.hw.$HWTYPE.sh
 fi
 
-
-	# Determine what type of hardware
-	# Do Hardware installer script
-	msg "Would do hardware scripts here."
-fi
-
+# Do OS Specific configurations
 if [ -f $INSTALLER_DIR/install.$RELEASE.sh ]; then
 	msg "Running $RELEASE specific configurations"
 	$INSTALLER_DIR/install.os.$RELEASE.sh
