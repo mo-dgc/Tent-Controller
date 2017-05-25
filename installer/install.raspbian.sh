@@ -4,7 +4,7 @@
 
 
 apt_update_preferences() {
-	if [ ! sed -n -e '/Pin: release n=jessie/,/Pin-Priority 600/!d' /etc/apt/preferences 2>&1 ]; then
+	if [ ! sed -n -e '/Pin: release n=jessie/,/Pin-Priority 600/!d' /etc/apt/preferences > /dev/null 2>&1 ]; then
 		msg "Adding Jessie as preferred release in /etc/apt/preferences"
 		echo "" >> /etc/apt/preferences
 		echo "Package: *" >> /etc/apt/preferences
