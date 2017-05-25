@@ -15,6 +15,10 @@ msg() {
 	echo -e "$Green$(date '+%Y-%m-%d %H:%M:%S'): $Yellow$1$Color_Off"
 }
 
+err() {
+	echo -e "$Red$1$Color_Off"
+}
+
 read_linux_release() {
     LINE=`grep "^ID=" /etc/os-release`
     echo "${LINE##*=}"
