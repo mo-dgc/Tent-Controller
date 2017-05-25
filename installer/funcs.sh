@@ -47,3 +47,34 @@ check_os_support() {
 	esac
 	return 1;
 }
+
+# @TODO: Figure out a better way to do this, unfortunately I only
+#  have limited hardware to do testing with.
+# Test C.H.I.P, Odroid-C2, PineA64
+
+get_hardware_type() {
+  ARCH=$(uname -m)
+
+	if grep -q "^arm" <<< $ARCH; then
+		# Determine Hardware
+		HARDWARE=$(cat /proc/cpuinfo | grep 'Hardware' | awk '{print $3}')
+
+		# BCM2835 - Raspbery Pi 1, Pi Zero, Pi Zero W
+		# BCM2836 - Raspbery Pi 2
+		# BCM2837 - Raspbery Pi 3, 32-bit reports as BCM2709
+		if grep -q "^BCM" <<< $HARDWARE; then
+			# We are a raspberry pi of some sort.
+			REVISION=$(cat /proc/cpuinfo | grep 'Revision' | awk '{print $3}')
+			# http://www.raspberrypi-spy.co.uk/2012/09/checking-your-raspberry-pi-board-version/
+			# I only grab raspberry pi 3 here
+			case $REVISION in
+				"a02082"|"a22082") 
+					echo "raspberypi3" 
+					;;
+				*)
+					echo "raspberrypi"
+					;;
+			esac
+		fi
+	fi
+}
