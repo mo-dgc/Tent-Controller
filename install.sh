@@ -40,7 +40,7 @@ if [ ! -z "$HWTYPE" ]; then
 fi
 
 # Do OS Specific configurations
-if [ -f $INSTALLER_DIR/install.$RELEASE.sh ]; then
+if [ -f $INSTALLER_DIR/install.os.$RELEASE.sh ]; then
 	msg "Running $RELEASE specific configurations"
 	$INSTALLER_DIR/install.os.$RELEASE.sh
 else
