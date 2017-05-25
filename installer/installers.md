@@ -8,6 +8,7 @@ Should do any hardware/platform specific set up tasks (mainly for embedded and S
 
 Should install the required software packages:
 
+* Git
 * Python 3 w/Pip
 * Avahi
 * Sqlite3
