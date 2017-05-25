@@ -69,7 +69,7 @@ get_hardware_type() {
 			# I only grab raspberry pi 3 here
 			case $REVISION in
 				"a02082"|"a22082") 
-					echo "raspberypi3" 
+					echo "raspberrypi3" 
 					;;
 				*)
 					echo "raspberrypi"
