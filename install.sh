@@ -42,7 +42,7 @@ fi
 # Do OS Specific configurations
 if [ -f $INSTALLER_DIR/install.os.$RELEASE.sh ]; then
 	msg "Running $RELEASE specific configurations"
-	$INSTALLER_DIR/install.os.$RELEASE.sh
+	. $INSTALLER_DIR/install.os.$RELEASE.sh
 else
 	err ">>> $RELEASE installer missing <<<"
 	err "$INSTALLER_DIR/install.os.$RELEASE.sh was not found."
