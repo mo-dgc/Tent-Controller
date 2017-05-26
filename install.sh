@@ -65,18 +65,8 @@ if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER
 	exit 1
 fi
 
-# Now install components
-msg "Installing components"
-mkdir "$INSTALL"
-mkdir "$BINROOT"
-cp -R bin/* "$BINROOT"
-mkdir "$WEBROOT"
-cp -R www/* "$WEBROOT"
-
-msg "Fixing permissions"
-chown -R "$APPUSER":"$APPUSER" "$INSTALL"
+# This needs to be done per OS.
+install_components
 
 msg "Installation is complete.  Please refer to the getting started wiki."
 msg "Please reboot the system."
-
-msg "Installation is complete. Please reboot the system."
