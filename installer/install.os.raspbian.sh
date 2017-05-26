@@ -64,6 +64,18 @@ install_system_software() {
 	#apt-get -y install supervisor
 }
 
+install_components() {
+	msg "Installing components"
+	mkdir "$INSTALL"
+	mkdir "$BINROOT"
+	cp -R bin/* "$BINROOT"
+	mkdir "$WEBROOT"
+	cp -R www/* "$WEBROOT"
+
+	msg "Fixing permissions"
+	chown -R "$APPUSER":"$APPUSER" "$INSTALL"
+}
+
 apt_update_sources
 apt_update_packages
 apt_upgrade_packages
