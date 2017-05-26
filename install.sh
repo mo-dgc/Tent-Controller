@@ -50,6 +50,8 @@ else
 	exit 1
 fi
 
+. $INSTALLER_DIR/install.common.sh
+
 configure_php7
 configure_nginx
 
