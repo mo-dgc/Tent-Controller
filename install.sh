@@ -53,11 +53,9 @@ fi
 configure_php7
 configure_nginx
 
-
 # Make sure that os.installer set required variables to proceed.
-if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
+if [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
 	err ">>> $RELEASE installer did not set required variables <<<"
-	err "INSTALL = '$INSTALL'"
 	err "BINROOT = '$BINROOT'"
 	err "WEBROOT = '$WEBROOT'"
 	err "APPUSER = '$APPUSER'"
