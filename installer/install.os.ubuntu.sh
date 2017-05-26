@@ -42,7 +42,7 @@ install_system_software() {
 
 install_components() {
 	msg "Installing components"
-	rsync --chown="$APPUSER":"$APPUSER" bin/* "$BINROOT"
+	rsync --chown="$APPUSER":"$APPUSER" -r bin/* "$BINROOT"
 
 	mkdir "$WEBROOT"
 	cp -R www/* "$WEBROOT"
