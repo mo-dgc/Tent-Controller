@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTALLER_DIR="$(dirname $(readlink -f $0))/installer"
+export INSTALLER_DIR="$(dirname $0)/installer"
 
 . $INSTALLER_DIR/funcs.sh
 
@@ -56,8 +56,9 @@ configure_php7
 configure_nginx
 
 # Make sure that os.installer set required variables to proceed.
-if [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
+if [ -z "$INSTALL"] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
 	err ">>> $RELEASE installer did not set required variables <<<"
+	err "INSTALL = '$INSTALL'"
 	err "BINROOT = '$BINROOT'"
 	err "WEBROOT = '$WEBROOT'"
 	err "APPUSER = '$APPUSER'"

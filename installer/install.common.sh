@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. $(dirname $(readlink -f $0))/funcs.sh
+. $INSTALLER_DIR/funcs.sh
 
 configure_php7() {
 	msg "Configuring PHP7"

@@ -1,11 +1,13 @@
 #!/bin/bash
 
-. $(dirname $(readlink -f $0))/funcs.sh
+. $INSTALLER_DIR/funcs.sh
 
 # These are set per OS
-BINROOT="/usr/local/bin/"
-WEBROOT="/var/www/gtmcs/"
-APPUSER="root"
+APPUSER=`logname`
+INSTALL="/home/$APPUSER/gtmcs"
+BINROOT="$INSTALL/bin/"
+WEBROOT="$INSTALL/www/"
+
 
 
 apt_update_packages() {
@@ -42,13 +44,16 @@ install_system_software() {
 
 install_components() {
 	msg "Installing components"
-	rsync --chown="$APPUSER":"$APPUSER" -r bin/* "$BINROOT"
+	mkdir "$INSTALL"
+	mkdir "$BINROOT"
+	#rsync --chown="$APPUSER":"$APPUSER" -r bin/* "$BINROOT"
+	cp -R bin/* "$BINROOT"
 
 	mkdir "$WEBROOT"
 	cp -R www/* "$WEBROOT"
 
 	msg "Fixing permissions"
-	chown -R "$APPUSER":"$APPUSER" "$WEBROOT"
+	chown -R "$APPUSER":"$APPUSER" "$INSTALL"
 }
 
 apt_upgrade_packages
