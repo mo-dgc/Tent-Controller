@@ -50,13 +50,8 @@ else
 	exit 1
 fi
 
-. $INSTALLER_DIR/install.common.sh
-
-configure_php7
-configure_nginx
-
 # Make sure that os.installer set required variables to proceed.
-if [ -z "$INSTALL"] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
+if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
 	err ">>> $RELEASE installer did not set required variables <<<"
 	err "INSTALL = '$INSTALL'"
 	err "BINROOT = '$BINROOT'"
@@ -66,7 +61,12 @@ if [ -z "$INSTALL"] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER"
 	exit 1
 fi
 
-# This needs to be done per OS.
+. $INSTALLER_DIR/install.common.sh
+
+configure_php7
+configure_nginx
+
+# This is done in the OS installer for future planning
 install_components
 
 msg "Installation is complete.  Please refer to the getting started wiki."

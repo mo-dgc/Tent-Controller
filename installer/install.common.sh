@@ -5,8 +5,8 @@
 configure_php7() {
 	msg "Configuring PHP7"
 	# Update user and group preference for FPM pool
-	sed -i 's,^\(user = \).*,\1'pi',' /etc/php/7.0/fpm/pool.d/www.conf
-	sed -i 's,^\(group = \).*,\1'pi',' /etc/php/7.0/fpm/pool.d/www.conf 
+	sed -i 's,^\(user = \).*,\1'$APPUSER',' /etc/php/7.0/fpm/pool.d/www.conf
+	sed -i 's,^\(group = \).*,\1'$APPUSER',' /etc/php/7.0/fpm/pool.d/www.conf 
 
 }
 
