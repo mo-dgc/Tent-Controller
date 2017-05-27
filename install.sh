@@ -1,9 +1,6 @@
 #!/bin/bash
 
-INSTALLER_DIR="$(dirname $(readlink -f $0))/installer"
-INSTALL="/home/pi/gtmcs"
-BINROOT="$INSTALL/bin/"
-WEBROOT="$INSTALL/www/"
+export INSTALLER_DIR="$(dirname $0)/installer"
 
 . $INSTALLER_DIR/funcs.sh
 
@@ -45,7 +42,7 @@ fi
 # Do OS Specific configurations
 if [ -f $INSTALLER_DIR/install.os.$RELEASE.sh ]; then
 	msg "Running $RELEASE specific configurations"
-	$INSTALLER_DIR/install.os.$RELEASE.sh
+	. $INSTALLER_DIR/install.os.$RELEASE.sh
 else
 	err ">>> $RELEASE installer missing <<<"
 	err "$INSTALLER_DIR/install.os.$RELEASE.sh was not found."
@@ -53,4 +50,24 @@ else
 	exit 1
 fi
 
-msg "Installation is complete. Please reboot the system."
+# Make sure that os.installer set required variables to proceed.
+if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
+	err ">>> $RELEASE installer did not set required variables <<<"
+	err "INSTALL = '$INSTALL'"
+	err "BINROOT = '$BINROOT'"
+	err "WEBROOT = '$WEBROOT'"
+	err "APPUSER = '$APPUSER'"
+	err "Please open a ticket for this issue on GitHub."
+	exit 1
+fi
+
+. $INSTALLER_DIR/install.common.sh
+
+configure_php7
+configure_nginx
+
+# This is done in the OS installer for future planning
+install_components
+
+msg "Installation is complete.  Please refer to the getting started wiki."
+msg "Please reboot the system."
