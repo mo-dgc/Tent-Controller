@@ -1,6 +1,6 @@
 #!/bin/bash
 
-INSTALLER_DIR="$(dirname $(readlink -f $0))/installer"
+export INSTALLER_DIR="$(dirname $0)/installer"
 
 . $INSTALLER_DIR/funcs.sh
 
@@ -42,17 +42,13 @@ fi
 # Do OS Specific configurations
 if [ -f $INSTALLER_DIR/install.os.$RELEASE.sh ]; then
 	msg "Running $RELEASE specific configurations"
-	$INSTALLER_DIR/install.os.$RELEASE.sh
+	. $INSTALLER_DIR/install.os.$RELEASE.sh
 else
 	err ">>> $RELEASE installer missing <<<"
 	err "$INSTALLER_DIR/install.os.$RELEASE.sh was not found."
 	err "Please open a ticket for this issue on GitHub."
 	exit 1
 fi
-
-configure_php7
-configure_nginx
-
 
 # Make sure that os.installer set required variables to proceed.
 if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER" ]; then
@@ -65,18 +61,13 @@ if [ -z "$INSTALL" ] || [ -z "$BINROOT" ] || [ -z "$WEBROOT" ] || [ -z "$APPUSER
 	exit 1
 fi
 
-# Now install components
-msg "Installing components"
-mkdir "$INSTALL"
-mkdir "$BINROOT"
-cp -R bin/* "$BINROOT"
-mkdir "$WEBROOT"
-cp -R www/* "$WEBROOT"
+. $INSTALLER_DIR/install.common.sh
 
-msg "Fixing permissions"
-chown -R "$APPUSER":"$APPUSER" "$INSTALL"
+configure_php7
+configure_nginx
+
+# This is done in the OS installer for future planning
+install_components
 
 msg "Installation is complete.  Please refer to the getting started wiki."
 msg "Please reboot the system."
-
-msg "Installation is complete. Please reboot the system."
