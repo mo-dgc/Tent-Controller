@@ -63,7 +63,7 @@ EOT
 		msg "Removing default site"
 		rm /etc/nginx/sites-enabled/default
 	fi
-	if [ ! -f /etc/nginx/sites-available/gtmcs.conf ]; then
+	if [ ! -f /etc/nginx/sites-enabled/gtmcs.conf ]; then
 		msg "Enabling gtmcs site"
 		ln -s /etc/nginx/sites-available/gtmcs.conf /etc/nginx/sites-enabled/
 	fi
