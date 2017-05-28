@@ -1,12 +1,12 @@
 #!/bin/bash
 
-. $(dirname $(readlink -f $0))/funcs.sh
+. $INSTALLER_DIR/funcs.sh
 
 configure_php7() {
 	msg "Configuring PHP7"
 	# Update user and group preference for FPM pool
-	sed -i 's,^\(user = \).*,\1'pi',' /etc/php/7.0/fpm/pool.d/www.conf
-	sed -i 's,^\(group = \).*,\1'pi',' /etc/php/7.0/fpm/pool.d/www.conf 
+	sed -i 's,^\(user = \).*,\1'$APPUSER',' /etc/php/7.0/fpm/pool.d/www.conf
+	sed -i 's,^\(group = \).*,\1'$APPUSER',' /etc/php/7.0/fpm/pool.d/www.conf 
 
 }
 
@@ -63,7 +63,8 @@ EOT
 		msg "Removing default site"
 		rm /etc/nginx/sites-enabled/default
 	fi
-	if [ ! -f /etc/nginx/sites-available/gtmcs.conf ]; then
+
+	if [ ! -f /etc/nginx/sites-enabled/gtmcs.conf ]; then
 		msg "Enabling gtmcs site"
 		ln -s /etc/nginx/sites-available/gtmcs.conf /etc/nginx/sites-enabled/
 	fi

@@ -38,7 +38,7 @@ check_os_support() {
 					return 1;
 					;;
 				"ubuntu")
-					return 1;
+					return 0;
 					;;
 				"raspbian")
 					return 0;

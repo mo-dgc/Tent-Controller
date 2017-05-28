@@ -1,12 +1,13 @@
 #!/bin/bash
 
-. $(dirname $(readlink -f $0))/funcs.sh
+. $INSTALLER_DIR/funcs.sh
 
 # These are set per OS
-INSTALL="/home/pi/gtmcs"
+APPUSER="pi"
+INSTALL="/home/$APPUSER/gtmcs"
 BINROOT="$INSTALL/bin/"
 WEBROOT="$INSTALL/www/"
-APPUSER="pi"
+
 
 apt_update_preferences() {
 	if [ ! sed -n -e '/Pin: release n=jessie/,/Pin-Priority 600/!d' /etc/apt/preferences > /dev/null 2>&1 ]; then
@@ -62,6 +63,18 @@ install_system_software() {
 	# Supervisor needed?
 	#msg "Installing Supervisor"
 	#apt-get -y install supervisor
+}
+
+install_components() {
+	msg "Installing components"
+	mkdir "$INSTALL"
+	mkdir "$BINROOT"
+	cp -R bin/* "$BINROOT"
+	mkdir "$WEBROOT"
+	cp -R www/* "$WEBROOT"
+
+	msg "Fixing permissions"
+	chown -R "$APPUSER":"$APPUSER" "$INSTALL"
 }
 
 apt_update_sources
