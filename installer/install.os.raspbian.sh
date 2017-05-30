@@ -52,7 +52,7 @@ install_system_software() {
 
 	msg "Installing Python"
 	apt-get -y install python-dev python-pip python-setuptools
-	apt-get -y install python3 python3-dev python3-pip python3-setuptools python3-bcrypt python3-sqlalchemy python3-passlib
+	apt-get -y install python3 python3-dev python3-pip python3-setuptools python3-bcrypt python3-sqlalchemy python3-passlib python3-serial
 
 	msg "Installing PHP7"
 	apt-get -y -t stretch install php7.0 php7.0-curl php7.0-gd php7.0-fpm php7.0-cli php7.0-opcache php7.0-mbstring php7.0-xml php7.0-zip php7.0-sqlite3
