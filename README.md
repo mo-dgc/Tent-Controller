@@ -12,6 +12,6 @@ The remote node repos can be found at:
 
 * Relay - Xbee controlled relays
 * Sensor - Xbee controlled sensor(s)
-* Camera - Tent Camera
+* Camera - [Tent Camera](https://github.com/mo-dgc/gtmcs-camera)
 
 To get started, see the wiki: https://github.com/mo-dgc/Tent-Controller/wiki
